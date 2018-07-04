@@ -8,7 +8,7 @@ CYAN='\033[01;36m'
 WHITE='\033[01;37m'
 BOLD='\033[1m'
 UNDERLINE='\033[4m'
-MAX=9
+MAX=7
 
 checkForUbuntuVersion() {
    echo "[1/${MAX}] Checking Ubuntu version..."
@@ -31,7 +31,7 @@ checkExistingSwapFiles() {
 
 createSwapFile() {
   echo
-  echo "[2/${MAX}] Creating swap file. Please wait..."
+  echo "[3/${MAX}] Creating swap file. Please wait..."
   sudo DEBIAN_FRONTEND=noninteractive sudo fallocate -l 2G /swapfile > /dev/null 2>&1
   # sudo DEBIAN_FRONTEND=noninteractive ls -lh /swapfile > /dev/null 2>&1
   echo -e "${GREEN}* Done${NONE}";
@@ -39,7 +39,7 @@ createSwapFile() {
 
 enableSwapFile() {
   echo
-  echo "[2/${MAX}] Enabling swap file. Please wait..."
+  echo "[4/${MAX}] Enabling swap file. Please wait..."
   sudo DEBIAN_FRONTEND=noninteractive sudo chmod 600 /swapfile > /dev/null 2>&1
   # sudo DEBIAN_FRONTEND=noninteractive ls -lh /swapfile > /dev/null 2>&1
   sudo DEBIAN_FRONTEND=noninteractive sudo mkswap /swapfile > /dev/null 2>&1
@@ -49,7 +49,7 @@ enableSwapFile() {
 
 makeSwapPermanent() {
   echo
-  echo "[2/${MAX}] Making swap file permanent. Please wait..."
+  echo "[5/${MAX}] Making swap file permanent. Please wait..."
   sudo DEBIAN_FRONTEND=noninteractive sudo cp /etc/fstab /etc/fstab.bak > /dev/null 2>&1
   sudo DEBIAN_FRONTEND=noninteractive echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab > /dev/null 2>&1
   echo -e "${GREEN}* Done${NONE}";
@@ -57,7 +57,7 @@ makeSwapPermanent() {
 
 adjustSwappiness() {
   echo
-  echo "[2/${MAX}] Adjusting swappiness. Please wait..."
+  echo "[6/${MAX}] Adjusting swappiness. Please wait..."
   sudo DEBIAN_FRONTEND=noninteractive sudo sysctl vm.swappiness=10 > /dev/null 2>&1
   sudo DEBIAN_FRONTEND=noninteractive echo "vm.swappiness=10" >> /etc/sysctl.conf  > /dev/null 2>&1
   echo -e "${GREEN}* Done${NONE}";
@@ -65,7 +65,7 @@ adjustSwappiness() {
 
 adjustCachePressure() {
   echo
-  echo "[2/${MAX}] Adjusting cache pressure. Please wait..."
+  echo "[7/${MAX}] Adjusting cache pressure. Please wait..."
   sudo DEBIAN_FRONTEND=noninteractive sudo sysctl vm.vfs_cache_pressure=50 > /dev/null 2>&1
   sudo DEBIAN_FRONTEND=noninteractive echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf  > /dev/null 2>&1
   echo -e "${GREEN}* Done${NONE}";
